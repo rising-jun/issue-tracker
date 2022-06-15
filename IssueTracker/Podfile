@@ -23,5 +23,7 @@ target 'IssueTracker' do
   pod 'RxAppState'
   pod 'Then'
   pod 'SnapKit'
-  pod 'Moya/RxSwift'  
+  pod 'Moya/RxSwift'
+  pod 'Pure'
+  
 end
