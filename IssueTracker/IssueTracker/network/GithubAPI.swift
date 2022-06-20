@@ -22,7 +22,12 @@ enum GithubAPI {
 
 extension GithubAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "https://github.com")!
+        switch self {
+        case .exchangeToken(_):
+            return URL(string: "https://github.com")!
+        case .requestIssueList:
+            return URL(string: "https://api.github.com")!
+        }
     }
     
     var path: String {

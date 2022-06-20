@@ -21,29 +21,40 @@ final class IssueReactor: Reactor {
     }
     
     enum Mutation {
-        case fetchData
+        case fetchData(Issue)
+        case none
     }
     
     struct State {
-        
+        var issue: Issue?
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .buttonTapped:
-            issueProvider
-                .requestIssues()
-                .asObservable()
-            return Observable.just(Mutation.fetchData)
+            issueProvider.requestIssues()?.subscribe({ singleIssue in
+                switch singleIssue {
+                case .success(let issue):
+                    print("issue success \(issue)")
+                case .failure(let error):
+                    print("error \(error)")
+                }
+            })
+            
+            return Observable.just(Mutation.none)
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
         switch mutation {
-        case .fetchData:
+        case .fetchData(let issue):
+            print("issue \(issue.title)")
+            newState.issue = issue
+        case .none:
             break
         }
-        return state
+        return newState
     }
     
 }
