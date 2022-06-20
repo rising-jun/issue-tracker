@@ -19,7 +19,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, View, DependencyS
     private var coordinator: AppCoordinator?
     private let rootNavigationController = UINavigationController()
     
-    private var rootViewController: UIViewController?
     var dependency: SceneDependency? {
         didSet {
             self.reactor = dependency?.manager
@@ -43,6 +42,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, View, DependencyS
             .compactMap { $0 }
             .bind { [weak self] viewControllerType in
                 guard let self = self else { return }
+                print("rootviewController \(viewControllerType)")
                 self.coordinator = AppCoordinator(navigationController: self.rootNavigationController,
                                                   presentViewController: viewControllerType)
                 self.coordinator?.start()
@@ -55,9 +55,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, View, DependencyS
             .filter { $0 }
             .bind { [weak self] _ in
                 guard let self = self else { return }
-                UIApplication.shared.keyWindow?.rootViewController = self.rootViewController
+                self.rootNavigationController.popViewController(animated: false)
                 self.coordinator = AppCoordinator(navigationController: self.rootNavigationController,
-                                                  presentViewController: .issue)
+                                                  presentViewController: .tabbar)
                 self.coordinator?.start()
             }
             .disposed(by: disposeBag)

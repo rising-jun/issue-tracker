@@ -8,11 +8,11 @@
 import UIKit
 
 final class IssueViewController: UIViewController {
+    static let id = "IssueViewController"
+    let coordinator: Coordinator
     
-    let issueCoordinate: IssueCoordinator
-    
-    init(issueCoordinate: IssueCoordinator) {
-        self.issueCoordinate = issueCoordinate
+    init(coordinator: Coordinator) {
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -23,5 +23,7 @@ final class IssueViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .yellow
+        tabBarItem.title = "이슈"
+        tabBarItem.image = UIImage(systemName: "pencil")
     }
 }
