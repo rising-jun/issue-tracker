@@ -21,11 +21,18 @@ final class GithubIssueRepository: GitHubIssueRequestable {
         provider.rx
             .request(.requestIssueList)
             .filterSuccessfulStatusCodes()
-            .debug()
-            .subscribe { response in
-                print("success \(String(data: response.data, encoding: .utf8))")
+            .map([Issue].self)
+            .subscribe { issues in
+                issues.forEach { issue in
+                    print(issue.title)
+                    issue.labels.forEach { label in
+                        print(label.name)
+                    }
+                    print(issue.milestone?.title)
+                    print(issue.body)
+                }
             } onFailure: { error in
-                print("error \(error)")
+                print(error)
             }
         return nil
     }
