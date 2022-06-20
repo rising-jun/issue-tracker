@@ -20,6 +20,6 @@ final class GithubTokenRepository: GitHubTokenExchangable {
         provider.rx
             .request(.exchangeToken(code))
             .map(Token.self)
-            .map { $0.access_token }
+            .map { $0.accessToken }
     }
 }
