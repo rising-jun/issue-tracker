@@ -8,13 +8,16 @@
 import Moya
 
 enum GithubAPI {
-    case exchangeToken(String)
+    
     private var clientID: String {
         return Bundle.main.object(forInfoDictionaryKey: "Client_ID") as? String ?? ""
     }
     private var clientSecret: String {
         return Bundle.main.object(forInfoDictionaryKey: "Client_Secret") as? String ?? ""
     }
+    
+    case exchangeToken(String)
+    case requestIssueList
 }
 
 extension GithubAPI: TargetType {
@@ -26,6 +29,8 @@ extension GithubAPI: TargetType {
         switch self {
         case .exchangeToken(_):
             return "/login/oauth/access_token"
+        case .requestIssueList:
+            return "/repos/rising-jun/issue-tracker/issues"
         }
     }
     
@@ -33,6 +38,8 @@ extension GithubAPI: TargetType {
         switch self {
         case .exchangeToken(_):
             return .post
+        case .requestIssueList:
+            return .get
         }
     }
     
@@ -45,6 +52,8 @@ extension GithubAPI: TargetType {
                 "code": code
             ]
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+        case .requestIssueList:
+            return .requestPlain
         }
     }
     
@@ -55,15 +64,24 @@ extension GithubAPI: TargetType {
             guard let jsonString = try? String(contentsOfFile: json) else { return Data() }
             guard let mockData = jsonString.data(using: .utf8) else { return Data() }
             return mockData
+        case .requestIssueList: //코드 중복
+            guard let json = Bundle.main.path(forResource: "MockIssueList", ofType: "json") else { return Data() }
+            guard let jsonString = try? String(contentsOfFile: json) else { return Data() }
+            guard let mockData = jsonString.data(using: .utf8) else { return Data() }
+            return mockData
         }
     }
     
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         switch self {
         case .exchangeToken(_):
-            var header = ["Content-Type": "application/json"]
-            header["Accept"] = "application/json"
-            return header
+//            var header = ["Content-Type": "application/json"]
+//            header["Accept"] = "application/json"
+//            return header
+            return ["Content-Type": "application/json",
+                    "Accept": "application/json"]
+        case .requestIssueList:
+            return ["Accept": "application/vnd.github.v3+json"]
         }
     }
 }
