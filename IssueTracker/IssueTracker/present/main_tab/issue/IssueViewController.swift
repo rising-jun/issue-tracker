@@ -21,7 +21,7 @@ final class IssueViewController: UIViewController, View, DependencySetable {
     var disposeBag = DisposeBag()
     static let id = "IssueViewController"
     let coordinator: Coordinator
-    private lazy var issueView = IssueView(frame: view.frame)
+    lazy var issueView = IssueView(frame: view.frame)
     
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
@@ -67,7 +67,7 @@ final class IssueViewController: UIViewController, View, DependencySetable {
 
 extension IssueViewController {
     private func setupUI() {
-        
+        print("asdf")
         tabBarItem.title = "이슈"
         tabBarItem.image = UIImage(systemName: "pencil")
     }
