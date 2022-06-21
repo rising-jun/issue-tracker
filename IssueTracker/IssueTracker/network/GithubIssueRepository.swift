@@ -10,16 +10,17 @@ import Moya
 
 protocol GitHubIssueRequestable {
     var provider: MoyaProvider<GithubAPI> { get }
-    func requestIssues() -> Single<[Issue]>
+    func requestIssues() -> Observable<[Issue]>
 }
 
 final class GithubIssueRepository: GitHubIssueRequestable {
     var provider = MoyaProvider<GithubAPI>()
     
-    func requestIssues() -> Single<[Issue]> {
+    func requestIssues() -> Observable<[Issue]> {
         provider.rx
             .request(.requestIssueList)
             .filterSuccessfulStatusCodes()
             .map([Issue].self)
+            .asObservable()
     }
 }

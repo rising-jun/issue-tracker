@@ -37,7 +37,6 @@ final class SceneReactor: Reactor {
         case .inputUserCode(let code):
             return tokenProvider
                 .exchangeToken(by: code)
-                .asObservable()
                 .do { accessToken in
                     UserDefaultManager.shared.save(accessToken: accessToken)
                 }

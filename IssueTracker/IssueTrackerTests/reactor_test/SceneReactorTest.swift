@@ -15,7 +15,7 @@ class SceneReactorTest: XCTestCase {
     var tokenExchangable: GitHubTokenExchangable!
 
     override func setUpWithError() throws {
-        tokenExchangable = GithubRepositoryStub()
+        tokenExchangable = GithubTokenRepositoryStub()
         reactor = SceneReactor(tokenProvider: tokenExchangable)
     }
     

@@ -10,11 +10,11 @@ import Moya
 import RxSwift
 @testable import IssueTracker
 
-class GithubAPITest: XCTestCase {
+class GithubTokenExchangeTest: XCTestCase {
     var tokenExchangable: GitHubTokenExchangable!
     
     override func setUpWithError() throws {
-        tokenExchangable = GithubRepositoryStub()
+        tokenExchangable = GithubTokenRepositoryStub()
     }
     
     func testTokenExchange() throws {
@@ -22,13 +22,9 @@ class GithubAPITest: XCTestCase {
         guard let json = Bundle.main.path(forResource: "MockAccessToken", ofType: "json") else { return }
         guard let jsonString = try? String(contentsOfFile: json) else { return }
         guard let mockData = jsonString.data(using: .utf8) else { return }
-        guard let expectedToken = try? JSONDecoder().decode(Token.self, from: mockData).access_token else { return }
+        guard let expectedToken = try? JSONDecoder().decode(Token.self, from: mockData).accessToken else { return }
         
-        tokenExchangable.provider.rx
-            .request(.exchangeToken("code"))
-            .map(Token.self)
-            .map { $0.access_token }
-            .asObservable()
+        tokenExchangable.exchangeToken(by: "code")
             .bind { token in
                 XCTAssertEqual(expectedToken, token)
                 expectation.fulfill()

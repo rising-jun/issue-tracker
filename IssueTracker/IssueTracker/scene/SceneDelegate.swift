@@ -42,7 +42,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, View, DependencyS
             .compactMap { $0 }
             .bind { [weak self] viewControllerType in
                 guard let self = self else { return }
-                print("rootviewController \(viewControllerType)")
                 self.coordinator = AppCoordinator(navigationController: self.rootNavigationController,
                                                   presentViewController: viewControllerType)
                 self.coordinator?.start()
