@@ -6,6 +6,11 @@
 //
 
 import ReactorKit
+import RxAppState
+
+enum NetworkError: Error {
+    case fetchIssues
+}
 
 final class IssueReactor: Reactor {
     
@@ -17,43 +22,39 @@ final class IssueReactor: Reactor {
     }
     
     enum Action {
-        case buttonTapped
+        case loadIssues
     }
     
     enum Mutation {
-        case fetchData(Issue)
-        case none
+        case fetchIssues(Result<[Issue]?, NetworkError>)
     }
     
     struct State {
-        var issue: Issue?
+        var loadedIssues: [Issue]?
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .buttonTapped:
-            issueProvider.requestIssues()?.subscribe({ singleIssue in
-                switch singleIssue {
-                case .success(let issue):
-                    print("issue success \(issue)")
-                case .failure(let error):
-                    print("error \(error)")
-                }
-            })
-            
-            return Observable.just(Mutation.none)
+        case .loadIssues:
+            issueProvider
+                .requestIssues()
+                .subscribe({ response in
+                    switch response {
+                    case .success(let issues):
+                        return Mutation.fetchIssues(.success(issues))
+                    case .failure(let error):
+                        return Mutation.fetchIssues(.failure(.fetchIssues))
+                    }
+                })
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .fetchData(let issue):
+        case .fetchIssue(let issue):
             print("issue \(issue.title)")
             newState.issue = issue
-        case .none:
-            break
-        }
         return newState
     }
     
@@ -94,9 +95,8 @@ final class IssueViewController: UIViewController, View, DependencySetable {
     func bind(reactor: IssueReactor) {
         view = issueView
         
-        issueView.button.rx
-            .tap
-            .map { Reactor.Action.buttonTapped }
+        rx.viewDidLoad
+            .map { Reactor.Action.loadIssues }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

@@ -10,20 +10,18 @@ import Then
 
 class IssueView: UIView {
     
-    let button = UIButton().then {
-        $0.setTitle("불러오기", for: .normal)
-        $0.setTitleColor(.red, for: .normal)
+    private lazy var tableVieDataSource = IssueTableViewDataSource()
+    private lazy var tableViewDelegate = IssueTableViewDelegate()
+    private lazy var tableView = UITableView().then {
+        $0.dataSource = tableVieDataSource
+        $0.delegate = tableViewDelegate
+        $0.register(IssueTableViewCell.self, forCellReuseIdentifier: IssueTableViewCell.identifier)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .yellow
+        backgroundColor = .white
         
-        addSubview(button)
-        button.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.height.equalTo(100)
-        }
     }
     
     @available(*, unavailable)
