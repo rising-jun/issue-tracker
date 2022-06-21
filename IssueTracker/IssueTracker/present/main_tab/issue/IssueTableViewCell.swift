@@ -21,6 +21,10 @@ class IssueTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
+    func bindViewProperty(issue: Issue) {
+        print("issue title in cell \(issue.title)")
+    }
 }
 
 // MARK: - View Layout

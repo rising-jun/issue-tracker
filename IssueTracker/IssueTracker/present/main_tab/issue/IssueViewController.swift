@@ -26,21 +26,25 @@ final class IssueViewController: UIViewController, View, DependencySetable {
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
-        view = issueView
+        
         DependencyInjector.shared.injecting(to: self)
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
-
+    
     func bind(reactor: IssueReactor) {
+        view = issueView
+        issueView.tableView.register(IssueTableViewCell.self, forCellReuseIdentifier: IssueTableViewCell.identifier)
+        
         rx.viewWillAppear
             .map { _ in Reactor.Action.loadIssues }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.setViewProperty }
+        .distinctUntilChanged()
         .compactMap { $0 }
         .filter { $0 }
         .bind { [weak self] _ in
@@ -48,11 +52,22 @@ final class IssueViewController: UIViewController, View, DependencySetable {
             self.setupUI()
         }
         .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.loadedIssues }
+        .compactMap { $0 }
+        .take(1)
+        .bind(to: issueView.tableView.rx.items(cellIdentifier: IssueTableViewCell.identifier, cellType: IssueTableViewCell.self)) {
+            _, issue, cell in
+            print("issue \(issue.title)")
+            cell.bindViewProperty(issue: issue)
+        }
+        .disposed(by: disposeBag)
     }
 }
 
 extension IssueViewController {
     private func setupUI() {
+        
         tabBarItem.title = "이슈"
         tabBarItem.image = UIImage(systemName: "pencil")
     }
