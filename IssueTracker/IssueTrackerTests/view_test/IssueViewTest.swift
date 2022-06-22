@@ -22,8 +22,15 @@ class IssueViewTest: XCTestCase {
     }
 
     func test_viewWillAppear() {
-        reactor.stub.state.value = IssueReactor.State(loadedIssues: [Issue](repeating: Issue(id: 0, number: 0, title: "", labels: [], milestone: nil, body: nil), count: 0), setViewProperty: true)
-        XCTAssertEqual(view.issueView.tableView.numberOfSections, 1)
+        reactor.stub.state.value = IssueReactor.State(setViewProperty: true)
+        view.viewWillAppear(true)
+        XCTAssertEqual(view.tabBarItem.title, "이슈")
     }
-
+    
+    func test_tableViewCell() {
+        let cellCount = 5
+        reactor.stub.state.value = IssueReactor.State(loadedIssues: [Issue](repeating: Issue(id: 0, number: 0, title: "", labels: [], milestone: nil, body: nil), count: cellCount))
+        view.viewWillAppear(true)
+        XCTAssertEqual(view.issueView.tableView.numberOfRows(inSection: 0) + 1, cellCount)
+    }
 }
