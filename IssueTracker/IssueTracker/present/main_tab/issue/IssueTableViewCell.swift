@@ -53,10 +53,6 @@ class IssueTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    func bindViewProperty(issue: Issue) {
-//        print("issue title in cell \(issue.title)")
-    }
-    
     override func prepareForReuse() {
         //Reuse 처리하기
     }
@@ -107,7 +103,6 @@ final class PaddingLabel: UILabel {
         var contentSize = super.intrinsicContentSize
         contentSize.height += padding.top + padding.bottom
         contentSize.width += padding.left + padding.right
-        
         return contentSize
     }
 }
