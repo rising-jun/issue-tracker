@@ -12,13 +12,15 @@ final class DependencyInjector {
     
     private lazy var dependencyDictionary: [ObjectIdentifier: Any] = [
         ObjectIdentifier(SceneDelegate.self): SceneDependency(manager: SceneReactor(tokenProvider: GithubTokenRepository())),
-        ObjectIdentifier(LoginViewController.self): LoginDependency(manager: LoginReactor())]
+        ObjectIdentifier(LoginViewController.self): LoginDependency(manager: LoginReactor()),
+        ObjectIdentifier(IssueViewController.self): IssueDependency(manager: IssueReactor(issueProvider: GithubIssueRepository()))
+    ]
     
     func injecting<T: DependencySetable>(to compose: T) {
         guard let dependency = dependencyDictionary[ObjectIdentifier(type(of: compose.self))],
               let detailedDependency = dependency as? T.DependencyType else {
-                  return
-              }
+            return
+        }
         compose.setDependency(dependency: detailedDependency)
     }
 }

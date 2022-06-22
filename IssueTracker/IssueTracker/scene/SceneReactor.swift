@@ -23,12 +23,12 @@ final class SceneReactor: Reactor {
     }
     
     enum Mutating {
-        case updateRootViewController(ViewControllerType)
+        case updateRootViewController(SceneType)
         case updateAccessTokenState(Bool)
     }
     
     struct State {
-        var rootViewController: ViewControllerType?
+        var rootViewController: SceneType?
         var hasToken: Bool?
     }
     
@@ -37,7 +37,6 @@ final class SceneReactor: Reactor {
         case .inputUserCode(let code):
             return tokenProvider
                 .exchangeToken(by: code)
-                .asObservable()
                 .do { accessToken in
                     UserDefaultManager.shared.save(accessToken: accessToken)
                 }
@@ -64,7 +63,7 @@ final class SceneReactor: Reactor {
 }
 
 extension SceneReactor {
-    private func checkRootViewController() -> ViewControllerType {
-        (UserDefaultManager.shared.getAccessToken().isEmpty) ? ViewControllerType.login : ViewControllerType.issue
+    private func checkRootViewController() -> SceneType {
+        (UserDefaultManager.shared.getAccessToken().isEmpty) ? SceneType.login : SceneType.tabbar
     }
 }

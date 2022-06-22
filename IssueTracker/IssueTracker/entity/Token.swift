@@ -8,7 +8,13 @@
 import Foundation
 
 struct Token: Decodable {
-    let access_token: String
+    let accessToken: String
     let scope: String
-    let token_type: String
+    let tokenType: String
+    
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case scope
+        case tokenType = "token_type"
+    }
 }

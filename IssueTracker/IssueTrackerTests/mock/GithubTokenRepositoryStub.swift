@@ -9,13 +9,14 @@ import Moya
 import RxSwift
 @testable import IssueTracker
 
-class GithubRepositoryStub: GitHubTokenExchangable {
+class GithubTokenRepositoryStub: GitHubTokenExchangable {
     var provider = MoyaProvider<GithubAPI>(stubClosure: MoyaProvider.immediatelyStub)
     
-    func exchangeToken(by code: String) -> Single<String> {
+    func exchangeToken(by code: String) -> Observable<String> {
         provider.rx
             .request(.exchangeToken(code))
             .map(Token.self)
-            .map { $0.access_token }
+            .map { $0.accessToken }
+            .asObservable()
     }
 }

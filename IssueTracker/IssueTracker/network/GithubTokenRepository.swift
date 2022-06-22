@@ -10,16 +10,17 @@ import Moya
 
 protocol GitHubTokenExchangable {
     var provider: MoyaProvider<GithubAPI> { get }
-    func exchangeToken(by code: String) -> Single<String>
+    func exchangeToken(by code: String) -> Observable<String>
 }
 
 final class GithubTokenRepository: GitHubTokenExchangable {
     var provider = MoyaProvider<GithubAPI>()
     
-    func exchangeToken(by code: String) -> Single<String> {
+    func exchangeToken(by code: String) -> Observable<String> {
         provider.rx
             .request(.exchangeToken(code))
             .map(Token.self)
-            .map { $0.access_token }
+            .map { $0.accessToken }
+            .asObservable()
     }
 }
