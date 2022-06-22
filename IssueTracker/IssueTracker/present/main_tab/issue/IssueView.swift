@@ -10,8 +10,6 @@ import Then
 
 final class IssueView: UIView {
     
-    private lazy var tableVieDataSource = IssueTableViewDataSource()
-    private lazy var tableViewDelegate = IssueTableViewDelegate()
     let tableView = UITableView().then {
         $0.register(IssueTableViewCell.self, forCellReuseIdentifier: IssueTableViewCell.identifier)
     }
