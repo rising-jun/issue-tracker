@@ -33,9 +33,6 @@ final class IssueView: UIView {
     }
     
     func setLayout() {
-        tableView.backgroundColor = .yellow
-        
-        
         addSubviews(tableView, searchBar)
         
         searchBar.snp.makeConstraints { make in
@@ -46,6 +43,30 @@ final class IssueView: UIView {
         tableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(searchBar.snp.bottom)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-20)
+        }
+    }
+    
+    func setSearchBarVisible() {
+        searchBar.isHidden = false
+        searchBar.snp.remakeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(20)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        tableView.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(searchBar.snp.bottom)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-20)
+        }
+    }
+    
+    func setSearchBarInVisible() {
+        searchBar.isHidden = true
+        
+        tableView.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(searchBar.snp.top)
             make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-20)
         }
     }

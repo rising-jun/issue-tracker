@@ -52,45 +52,45 @@ final class IssueViewController: UIViewController, View, DependencySetable {
             }
         
         reactor.state.map { $0.setViewProperty }
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .filter { $0 }
-            .bind { [weak self] _ in
-                guard let self = self else { return }
-                self.setupUI()
-            }
-            .disposed(by: disposeBag)
+        .distinctUntilChanged()
+        .compactMap { $0 }
+        .filter { $0 }
+        .bind { [weak self] _ in
+            guard let self = self else { return }
+            self.setupUI()
+        }
+        .disposed(by: disposeBag)
         
         reactor.state.map { $0.loadedIssues }
-            .compactMap { $0 }
-            .take(1)
-            .bind(to: issueView.tableView.rx.items(cellIdentifier: IssueTableViewCell.identifier,
-                                                   cellType: IssueTableViewCell.self)) {
-                _, issue, cell in
-                cell.configureCell(with: issue)
-            }.disposed(by: disposeBag)
+        .compactMap { $0 }
+        .take(1)
+        .bind(to: issueView.tableView.rx.items(cellIdentifier: IssueTableViewCell.identifier,
+                                               cellType: IssueTableViewCell.self)) {
+            _, issue, cell in
+            cell.configureCell(with: issue)
+        }.disposed(by: disposeBag)
         
         issueView.tableView.rx
             .itemSelected
         
         issueView.tableView.rx
             .didScroll
-            .bind { [weak self] _ in
-                guard let self = self else { return }
-                
-//                if self.isScrollTop() {
-//                    self.issueView.tableView.snp.remakeConstraints { make in
-//                        make.top.equalTo(self.issueView.searchBar.snp.bottom)
-//                    }
-//                } else {
-//                    self.issueView.tableView.snp.remakeConstraints { make in
-//                        make.top.equalToSuperview()
-//
-//                    }
-//                }
-                
-                
+            .map { [unowned self] _ in
+                Reactor.Action.tableDidScroll(self.isScrollTop())
             }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.isTableTop }
+        .distinctUntilChanged()
+        .compactMap { $0 }
+        .bind { [weak self] isTableTop in
+            guard let self = self else { return }
+            isTableTop ? self.issueView.setSearchBarVisible() : self.issueView.setSearchBarInVisible()
+            print("ishideen \(self.issueView.searchBar.isHidden)")
+        }
+        .disposed(by: disposeBag)
+        
     }
 }
 
