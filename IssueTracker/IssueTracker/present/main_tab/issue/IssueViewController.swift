@@ -56,18 +56,23 @@ final class IssueViewController: UIViewController, View, DependencySetable {
         reactor.state.map { $0.loadedIssues }
         .compactMap { $0 }
         .take(1)
-        .bind(to: issueView.tableView.rx.items(cellIdentifier: IssueTableViewCell.identifier, cellType: IssueTableViewCell.self)) {
+        .bind(to: issueView.tableView.rx.items(cellIdentifier: IssueTableViewCell.identifier,
+                                               cellType: IssueTableViewCell.self)) {
             _, issue, cell in
-            print("issue \(issue.title)")
+            cell.configureCell(with: issue)
+            
             cell.bindViewProperty(issue: issue)
         }
         .disposed(by: disposeBag)
+        
+        issueView.tableView.rx
+            .itemSelected
+            // Reactor 바인딩하기
     }
 }
 
 extension IssueViewController {
     private func setupUI() {
-        print("asdf")
         tabBarItem.title = "이슈"
         tabBarItem.image = UIImage(systemName: "pencil")
     }
