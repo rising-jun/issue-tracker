@@ -24,7 +24,7 @@ class IssueTableViewCell: UITableViewCell {
         $0.textColor = .systemGray3
     }
     
-    private lazy var labelTitleLabel = PaddingLabel().then { //stackView로 변경, labelTitleLabel CustomView로 빼기
+    private lazy var labelTitleLabel = PaddingLabel().then {
         $0.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
