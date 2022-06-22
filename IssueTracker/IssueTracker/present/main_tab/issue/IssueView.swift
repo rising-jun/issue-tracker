@@ -10,7 +10,14 @@ import Then
 
 final class IssueView: UIView {
     
+    let searchBar = UISearchBar().then {
+        $0.placeholder = "Search"
+    }
+    
     let tableView = UITableView().then {
+        let headerView = UILabel()
+        headerView.text = "이슈"
+        $0.tableHeaderView = headerView
         $0.register(IssueTableViewCell.self, forCellReuseIdentifier: IssueTableViewCell.identifier)
     }
     
@@ -26,13 +33,20 @@ final class IssueView: UIView {
     }
     
     func setLayout() {
-        addSubviews(tableView)
         tableView.backgroundColor = .yellow
+        
+        
+        addSubviews(tableView, searchBar)
+        
+        searchBar.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(20)
+            make.leading.trailing.equalToSuperview()
+        }
+        
         tableView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(searchBar.snp.bottom)
             make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-20)
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(40)
         }
     }
-    
 }

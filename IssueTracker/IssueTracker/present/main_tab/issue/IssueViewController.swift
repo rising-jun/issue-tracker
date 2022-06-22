@@ -28,6 +28,7 @@ final class IssueViewController: UIViewController, View, DependencySetable {
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
         
+        
         DependencyInjector.shared.injecting(to: self)
     }
     
@@ -44,36 +45,51 @@ final class IssueViewController: UIViewController, View, DependencySetable {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        rx.viewWillAppear
+            .withUnretained(self)
+            .bind { vc, _ in
+                
+            }
+        
         reactor.state.map { $0.setViewProperty }
-        .distinctUntilChanged()
-        .compactMap { $0 }
-        .filter { $0 }
-        .bind { [weak self] _ in
-            guard let self = self else { return }
-            self.setupUI()
-        }
-        .disposed(by: disposeBag)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .filter { $0 }
+            .bind { [weak self] _ in
+                guard let self = self else { return }
+                self.setupUI()
+            }
+            .disposed(by: disposeBag)
         
         reactor.state.map { $0.loadedIssues }
-        .compactMap { $0 }
-        .take(1)
-        .bind(to: issueView.tableView.rx.items(cellIdentifier: IssueTableViewCell.identifier,
-                                               cellType: IssueTableViewCell.self)) {
-            _, issue, cell in
-            cell.configureCell(with: issue)
-            
-            cell.bindViewProperty(issue: issue)
-        }
-        .disposed(by: disposeBag)
+            .compactMap { $0 }
+            .take(1)
+            .bind(to: issueView.tableView.rx.items(cellIdentifier: IssueTableViewCell.identifier,
+                                                   cellType: IssueTableViewCell.self)) {
+                _, issue, cell in
+                cell.configureCell(with: issue)
+            }.disposed(by: disposeBag)
         
         issueView.tableView.rx
             .itemSelected
-            // Reactor 바인딩하기
+        
         issueView.tableView.rx
             .didScroll
             .bind { [weak self] _ in
                 guard let self = self else { return }
-                self.didScroll()
+                
+//                if self.isScrollTop() {
+//                    self.issueView.tableView.snp.remakeConstraints { make in
+//                        make.top.equalTo(self.issueView.searchBar.snp.bottom)
+//                    }
+//                } else {
+//                    self.issueView.tableView.snp.remakeConstraints { make in
+//                        make.top.equalToSuperview()
+//
+//                    }
+//                }
+                
+                
             }
     }
 }
@@ -84,20 +100,8 @@ extension IssueViewController {
         tabBarItem.image = UIImage(systemName: "pencil")
     }
     
-    private func didScroll() {
-        let scrollView = issueView.tableView
-        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height + scrollView.contentInset.bottom)
-                if scrollView.contentOffset.y > 0 && scrollView.contentOffset.y < bottomOffset.y {
-                    if (self.lastContentOffset > scrollView.contentOffset.y) {
-                        // scroll up
-                        print("scroll up")
-                    }
-                    else if (self.lastContentOffset < scrollView.contentOffset.y) {
-                        // scroll down
-                        print("scroll down")
-                    }
-                    self.lastContentOffset = scrollView.contentOffset.y
-                }
+    private func isScrollTop() -> Bool {
+        return issueView.tableView.contentOffset.y <= 0
     }
 }
 
