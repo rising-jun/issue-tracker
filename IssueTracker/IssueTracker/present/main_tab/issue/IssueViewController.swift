@@ -87,7 +87,6 @@ final class IssueViewController: UIViewController, View, DependencySetable {
         .bind { [weak self] isTableTop in
             guard let self = self else { return }
             isTableTop ? self.issueView.setSearchBarVisible() : self.issueView.setSearchBarInVisible()
-            print("ishideen \(self.issueView.searchBar.isHidden)")
         }
         .disposed(by: disposeBag)
         

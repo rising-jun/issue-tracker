@@ -48,9 +48,7 @@ final class IssueReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .fetchIssues(let issues):
-            print("update issue \(issues.count)")
-            newState.loadedIssues = issues
+        case .fetchIssues(let issues):            newState.loadedIssues = issues
         case .updateViewProperty(let setState):
             newState.setViewProperty = setState
         case .updateIsTableTop(let isScrollTop):
