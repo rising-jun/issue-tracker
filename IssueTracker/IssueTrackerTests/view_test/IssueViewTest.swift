@@ -17,6 +17,7 @@ class IssueViewTest: XCTestCase {
     override func setUpWithError() throws {
         view = IssueViewController(coordinator: IssueCoordinator(navigationController: UINavigationController()))
         reactor = IssueReactor(issueProvider: GithubIssueRepositoryStub())
+        view.loadViewIfNeeded()
         view.reactor = reactor
         reactor.isStubEnabled = true
     }
