@@ -27,8 +27,6 @@ final class IssueViewController: UIViewController, View, DependencySetable {
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
-        
-        
         DependencyInjector.shared.injecting(to: self)
     }
     
@@ -44,13 +42,7 @@ final class IssueViewController: UIViewController, View, DependencySetable {
             .map { _ in Reactor.Action.loadIssues }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        rx.viewWillAppear
-            .withUnretained(self)
-            .bind { vc, _ in
-                
-            }
-        
+
         reactor.state.map { $0.setViewProperty }
         .distinctUntilChanged()
         .compactMap { $0 }
