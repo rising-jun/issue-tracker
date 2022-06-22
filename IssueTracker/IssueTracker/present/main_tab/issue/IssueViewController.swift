@@ -22,6 +22,7 @@ final class IssueViewController: UIViewController, View, DependencySetable {
     static let id = "IssueViewController"
     let coordinator: Coordinator
     lazy var issueView = IssueView(frame: view.frame)
+    private var lastContentOffset: CGFloat = 0
     
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
@@ -68,6 +69,12 @@ final class IssueViewController: UIViewController, View, DependencySetable {
         issueView.tableView.rx
             .itemSelected
             // Reactor 바인딩하기
+        issueView.tableView.rx
+            .didScroll
+            .bind { [weak self] _ in
+                guard let self = self else { return }
+                self.didScroll()
+            }
     }
 }
 
@@ -75,6 +82,22 @@ extension IssueViewController {
     private func setupUI() {
         tabBarItem.title = "이슈"
         tabBarItem.image = UIImage(systemName: "pencil")
+    }
+    
+    private func didScroll() {
+        let scrollView = issueView.tableView
+        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height + scrollView.contentInset.bottom)
+                if scrollView.contentOffset.y > 0 && scrollView.contentOffset.y < bottomOffset.y {
+                    if (self.lastContentOffset > scrollView.contentOffset.y) {
+                        // scroll up
+                        print("scroll up")
+                    }
+                    else if (self.lastContentOffset < scrollView.contentOffset.y) {
+                        // scroll down
+                        print("scroll down")
+                    }
+                    self.lastContentOffset = scrollView.contentOffset.y
+                }
     }
 }
 
