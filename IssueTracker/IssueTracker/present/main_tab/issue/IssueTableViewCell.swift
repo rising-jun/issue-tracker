@@ -54,12 +54,8 @@ class IssueTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        //Reuse 처리하기
     }
 }
-
-// MARK: - View Layout
-
 private extension IssueTableViewCell {
     func configureContentStackView() {
         [issueTitleLabel, issueDescriptionLabel, milestonTitleLabel, labelTitleLabel].forEach { label in
@@ -79,7 +75,7 @@ private extension IssueTableViewCell {
 // MARK: - Providing Function
 
 extension IssueTableViewCell {
-    func configureCell(with issue: Issue) { //ViewModel binding해서 그리는 방식으로 변경
+    func configureCell(with issue: Issue) { 
         issueTitleLabel.text = issue.title
         issueDescriptionLabel.text = issue.body
         milestonTitleLabel.text = issue.milestone?.title

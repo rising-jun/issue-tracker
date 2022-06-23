@@ -9,7 +9,6 @@ import ReactorKit
 import RxAppState
 
 final class IssueViewController: UIViewController, View, DependencySetable {
-    
     typealias DependencyType = IssueDependency
     
     var dependency: IssueDependency? {
@@ -20,38 +19,31 @@ final class IssueViewController: UIViewController, View, DependencySetable {
     
     var disposeBag = DisposeBag()
     static let id = "IssueViewController"
-    let coordinator: Coordinator
+    var coordinator: Coordinator?
     lazy var issueView = IssueView(frame: view.frame)
     private var lastContentOffset: CGFloat = 0
     
-    init(coordinator: Coordinator) {
-        self.coordinator = coordinator
+    init() {
         super.init(nibName: nil, bundle: nil)
         DependencyInjector.shared.injecting(to: self)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError()
     }
     
     func bind(reactor: IssueReactor) {
         view = issueView
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.topItem?.title = "issue"
+        
         issueView.tableView.register(IssueTableViewCell.self, forCellReuseIdentifier: IssueTableViewCell.identifier)
         
         rx.viewWillAppear
             .map { _ in Reactor.Action.loadIssues }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
-        reactor.state.map { $0.setViewProperty }
-        .distinctUntilChanged()
-        .compactMap { $0 }
-        .filter { $0 }
-        .bind { [weak self] _ in
-            guard let self = self else { return }
-            self.setupUI()
-        }
-        .disposed(by: disposeBag)
         
         reactor.state.map { $0.loadedIssues }
         .compactMap { $0 }
@@ -61,10 +53,7 @@ final class IssueViewController: UIViewController, View, DependencySetable {
             _, issue, cell in
             cell.configureCell(with: issue)
         }.disposed(by: disposeBag)
-        
-        issueView.tableView.rx
-            .itemSelected
-        
+    
         issueView.tableView.rx
             .didScroll
             .map { [unowned self] _ in
@@ -86,11 +75,6 @@ final class IssueViewController: UIViewController, View, DependencySetable {
 }
 
 extension IssueViewController {
-    private func setupUI() {
-        tabBarItem.title = "이슈"
-        tabBarItem.image = UIImage(systemName: "pencil")
-    }
-    
     private func isScrollTop() -> Bool {
         return issueView.tableView.contentOffset.y <= 0
     }

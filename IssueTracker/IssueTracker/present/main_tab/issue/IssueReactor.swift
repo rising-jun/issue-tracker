@@ -22,23 +22,20 @@ final class IssueReactor: Reactor {
     
     enum Mutation {
         case fetchIssues([Issue])
-        case updateViewProperty(Bool)
         case updateIsTableTop(Bool)
     }
     
     struct State {
         var loadedIssues: [Issue]?
-        var setViewProperty: Bool?
         var isTableTop: Bool?
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadIssues:
-            return Observable.concat( [issueProvider
-                                        .requestIssues()
-                                        .map { Mutation.fetchIssues($0) },
-                                       Observable.just(Mutation.updateViewProperty(true))] )
+            return issueProvider
+                .requestIssues()
+                .map { Mutation.fetchIssues($0) }
             
         case .tableDidScroll(let isScrollTop):
             return Observable.just(Mutation.updateIsTableTop(isScrollTop))
@@ -48,9 +45,8 @@ final class IssueReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .fetchIssues(let issues):            newState.loadedIssues = issues
-        case .updateViewProperty(let setState):
-            newState.setViewProperty = setState
+        case .fetchIssues(let issues):
+            newState.loadedIssues = issues
         case .updateIsTableTop(let isScrollTop):
             newState.isTableTop = isScrollTop
         }

@@ -42,6 +42,10 @@
 		72CA8EAD286065F800CEA315 /* GithubTokenExchangeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CA8EAC286065F800CEA315 /* GithubTokenExchangeTest.swift */; };
 		72CA8EAF2860662B00CEA315 /* SceneReactorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CA8EAE2860662B00CEA315 /* SceneReactorTest.swift */; };
 		72CFB97E2859C12500104068 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72CFB97D2859C12500104068 /* UIView+Extension.swift */; };
+		72D6EBD42864353C000514BB /* LabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6EBD32864353C000514BB /* LabelViewController.swift */; };
+		72D6EBD62864357F000514BB /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6EBD52864357F000514BB /* LabelView.swift */; };
+		72D6EBD82864369A000514BB /* LabelReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6EBD72864369A000514BB /* LabelReactor.swift */; };
+		72D6EBDA2864514D000514BB /* LabelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6EBD92864514D000514BB /* LabelCoordinator.swift */; };
 		72F41A742857329A00711F54 /* SceneReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F41A732857329A00711F54 /* SceneReactor.swift */; };
 		72F41A76285735B600711F54 /* GithubTokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F41A75285735B600711F54 /* GithubTokenRepository.swift */; };
 		D6EB8F0CCF74DC32CDE6D075 /* Pods_IssueTracker_IssueTrackerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 421D64DBDD9DFB4CB324348D /* Pods_IssueTracker_IssueTrackerUITests.framework */; };
@@ -108,6 +112,10 @@
 		72CA8EAC286065F800CEA315 /* GithubTokenExchangeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubTokenExchangeTest.swift; sourceTree = "<group>"; };
 		72CA8EAE2860662B00CEA315 /* SceneReactorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneReactorTest.swift; sourceTree = "<group>"; };
 		72CFB97D2859C12500104068 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		72D6EBD32864353C000514BB /* LabelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelViewController.swift; sourceTree = "<group>"; };
+		72D6EBD52864357F000514BB /* LabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelView.swift; sourceTree = "<group>"; };
+		72D6EBD72864369A000514BB /* LabelReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelReactor.swift; sourceTree = "<group>"; };
+		72D6EBD92864514D000514BB /* LabelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCoordinator.swift; sourceTree = "<group>"; };
 		72F41A732857329A00711F54 /* SceneReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneReactor.swift; sourceTree = "<group>"; };
 		72F41A75285735B600711F54 /* GithubTokenRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubTokenRepository.swift; sourceTree = "<group>"; };
 		838AEF9487241F9CD36029D9 /* Pods-IssueTracker-IssueTrackerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssueTracker-IssueTrackerUITests.debug.xcconfig"; path = "Target Support Files/Pods-IssueTracker-IssueTrackerUITests/Pods-IssueTracker-IssueTrackerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -228,6 +236,7 @@
 		72432EB7285C14ED00DEDE85 /* main_tab */ = {
 			isa = PBXGroup;
 			children = (
+				72D6EBD228643502000514BB /* label */,
 				724F0EAD285853270094351C /* issue */,
 			);
 			path = main_tab;
@@ -324,6 +333,17 @@
 				72CFB97D2859C12500104068 /* UIView+Extension.swift */,
 			);
 			path = extension;
+			sourceTree = "<group>";
+		};
+		72D6EBD228643502000514BB /* label */ = {
+			isa = PBXGroup;
+			children = (
+				72D6EBD32864353C000514BB /* LabelViewController.swift */,
+				72D6EBD52864357F000514BB /* LabelView.swift */,
+				72D6EBD72864369A000514BB /* LabelReactor.swift */,
+				72D6EBD92864514D000514BB /* LabelCoordinator.swift */,
+			);
+			path = label;
 			sourceTree = "<group>";
 		};
 		72F41A722857324200711F54 /* login */ = {
@@ -623,6 +643,7 @@
 				724F5C7A285AC5CC00B479A2 /* Token.swift in Sources */,
 				1E96DF6F28604A4900E64DC2 /* IssueView.swift in Sources */,
 				72432EBC285C193600DEDE85 /* AppCoordinator.swift in Sources */,
+				72D6EBD62864357F000514BB /* LabelView.swift in Sources */,
 				1E96DF6D2860493E00E64DC2 /* Issue.swift in Sources */,
 				722DBF212856CBC80021782E /* LoginViewController.swift in Sources */,
 				72C10527285772D9007EC4E8 /* GithubAPI.swift in Sources */,
@@ -631,7 +652,9 @@
 				72F41A742857329A00711F54 /* SceneReactor.swift in Sources */,
 				724F0EAB28584BEE0094351C /* SceneType.swift in Sources */,
 				729D0A682859710A003873F8 /* LoginReactor.swift in Sources */,
+				72D6EBD42864353C000514BB /* LabelViewController.swift in Sources */,
 				72592E3528618D190019C429 /* IssueReactor.swift in Sources */,
+				72D6EBD82864369A000514BB /* LabelReactor.swift in Sources */,
 				72F41A76285735B600711F54 /* GithubTokenRepository.swift in Sources */,
 				724F5C7C285ACEDF00B479A2 /* RequestGithubLogin.swift in Sources */,
 				724F5C77285AC4AE00B479A2 /* DependencyInjector.swift in Sources */,
@@ -640,6 +663,7 @@
 				724F0EA92858456B0094351C /* UserDefaultManager.swift in Sources */,
 				724F0EBA285873700094351C /* LoginView.swift in Sources */,
 				722DBF1F2856CBC80021782E /* SceneDelegate.swift in Sources */,
+				72D6EBDA2864514D000514BB /* LabelCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

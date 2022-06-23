@@ -32,7 +32,10 @@ final class AppCoordinator: Coordinator {
             viewController = LoginViewController()
         case .tabbar:
             navigationController.popViewController(animated: false)
-            viewController = makeTabBarController()!
+            guard let tabBarController = makeTabBarController() else { return }
+            viewController = tabBarController
+        case .issue: return
+        case .label: return
         }
         navigationController.setViewControllers([viewController], animated: true)
     }
@@ -40,17 +43,19 @@ final class AppCoordinator: Coordinator {
     private func setChildCoordinators() {
         guard let navigationController = navigationController else { return }
         childCoordinators[IssueViewController.id] = IssueCoordinator(navigationController: navigationController)
+        childCoordinators[LabelViewController.id] = LabelCoordinator(navigationController: navigationController)
     }
     
     private func makeTabBarController() -> UITabBarController? {
         let tabBarController = UITabBarController()
         guard let issueCoordinate = childCoordinators[IssueViewController.id] else { return nil }
-        let issueViewController = IssueViewController(coordinator: issueCoordinate)
+        guard let issueViewController = SceneType.issue.makeViewController() as? IssueViewController else { return nil }
+        issueViewController.coordinator = issueCoordinate
 
-        let labelViewController = UIViewController()
-        labelViewController.tabBarItem.title = "레이블"
-        labelViewController.tabBarItem.image = UIImage(systemName: "pencil")
-
+        guard let labelCoordinate = childCoordinators[LabelViewController.id] else { return nil }
+        guard let labelViewController = SceneType.label.makeViewController() as? LabelViewController else { return nil }
+        labelViewController.coordinator = labelCoordinate
+        
         let milestoneViewController = UIViewController()
         milestoneViewController.tabBarItem.title = "마일스톤"
         milestoneViewController.tabBarItem.image = UIImage(systemName: "pencil")
