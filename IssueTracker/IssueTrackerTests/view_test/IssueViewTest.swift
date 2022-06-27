@@ -15,17 +15,11 @@ class IssueViewTest: XCTestCase {
     var reactor: IssueReactor!
     
     override func setUpWithError() throws {
-        view = IssueViewController(coordinator: IssueCoordinator(navigationController: UINavigationController()))
+        view = IssueViewController()
         reactor = IssueReactor(issueProvider: GithubIssueRepositoryStub())
         view.loadViewIfNeeded()
         view.reactor = reactor
         reactor.isStubEnabled = true
-    }
-
-    func test_viewWillAppear() {
-        reactor.stub.state.value = IssueReactor.State(setViewProperty: true)
-        view.viewWillAppear(true)
-        XCTAssertEqual(view.tabBarItem.title, "이슈")
     }
     
     func test_tableViewCell() {
