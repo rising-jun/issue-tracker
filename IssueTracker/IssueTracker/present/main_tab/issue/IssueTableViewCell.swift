@@ -72,8 +72,6 @@ private extension IssueTableViewCell {
     }
 }
 
-// MARK: - Providing Function
-
 extension IssueTableViewCell {
     func configureCell(with issue: Issue) { 
         issueTitleLabel.text = issue.title

@@ -45,6 +45,15 @@ final class IssueViewController: UIViewController, View, DependencySetable {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        reactor.state.map { $0.setViewProperty }
+        .compactMap { $0 }
+        .filter { $0 }
+        .bind { [weak self] _ in
+            guard let self = self else { return }
+            self.setupUI()
+        }
+        .disposed(by: disposeBag)
+        
         reactor.state.map { $0.loadedIssues }
         .compactMap { $0 }
         .take(1)
@@ -77,6 +86,12 @@ final class IssueViewController: UIViewController, View, DependencySetable {
 extension IssueViewController {
     private func isScrollTop() -> Bool {
         return issueView.tableView.contentOffset.y <= 0
+    }
+    
+    private func setupUI() {
+        self.navigationController?.navigationBar.topItem?.title = "이슈"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.sizeToFit()
     }
 }
 

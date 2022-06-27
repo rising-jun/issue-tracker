@@ -9,6 +9,11 @@ import ReactorKit
 
 final class LabelReactor: Reactor {
     var initialState = State()
+    private let labelProvider: GitHubLabelRequestable
+    
+    init(labelProvider: GitHubLabelRequestable) {
+        self.labelProvider = labelProvider
+    }
     
     enum Action {
         case loadLabels
@@ -27,7 +32,9 @@ final class LabelReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadLabels:
-            return Observable.concat( [Observable.just(Mutation.updateViewProperty(true))] )
+            return labelProvider.requestLabels()
+                .flatMap { Observable.concat( [Observable.just(Mutation.updateViewProperty(true)),
+                                               Observable.just(Mutation.fetchLabels($0))]) }
         }
     }
     
@@ -36,8 +43,8 @@ final class LabelReactor: Reactor {
         switch mutation {
         case .fetchLabels(let labels):
             newState.loadedLabels = labels
-        case .updateViewProperty(let setState):
-            newState.setViewProperty = setState
+        case .updateViewProperty(let ready):
+            newState.setViewProperty = ready
         }
         return newState
     }

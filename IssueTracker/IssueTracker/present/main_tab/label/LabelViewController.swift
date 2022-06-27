@@ -44,25 +44,29 @@ final class LabelViewController: UIViewController, View, DependencySetable {
         
         reactor.state.map { $0.setViewProperty }
         .compactMap { $0 }
-        .distinctUntilChanged()
         .filter { $0 }
         .bind { [weak self] _ in
             guard let self = self else { return }
             self.setupUI()
         }
         .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.loadedLabels }
+        .compactMap { $0 }
+        .take(1)
+        .bind(to: labelView.tableView.rx.items(cellIdentifier: LabelTableViewCell.identifier,
+                                                cellType: LabelTableViewCell.self)) {
+             _, label, cell in
+            cell.configureCell(with: label)
+         }.disposed(by: disposeBag)
+        
     }
 }
 extension LabelViewController {
     private func setupUI() {
-//        guard let navigationBar = self.navigationController?.navigationBar else { return }
-//        let appearance = UINavigationBarAppearance()
-//        appearance.configureWithOpaqueBackground()
-//        appearance.backgroundColor = .white
-//        navigationBar.standardAppearance = appearance
-//        navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
-//        navigationController?.navigationBar.prefersLargeTitles = true
-//        navigationBar.topItem?.title = "asdf"
+        self.navigationController?.navigationBar.topItem?.title = "레이블"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.sizeToFit()
     }
 }
 struct LabelDependency: Dependency {

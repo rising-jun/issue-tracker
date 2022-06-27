@@ -14,7 +14,7 @@ final class DependencyInjector {
         ObjectIdentifier(SceneDelegate.self): SceneDependency(manager: SceneReactor(tokenProvider: GithubTokenRepository())),
         ObjectIdentifier(LoginViewController.self): LoginDependency(manager: LoginReactor()),
         ObjectIdentifier(IssueViewController.self): IssueDependency(manager: IssueReactor(issueProvider: GithubIssueRepository())),
-        ObjectIdentifier(LabelViewController.self): LabelDependency(manager: LabelReactor())
+        ObjectIdentifier(LabelViewController.self): LabelDependency(manager: LabelReactor(labelProvider: GithubLabelRepository()))
     ]
     
     func injecting<T: DependencySetable>(to compose: T) {
