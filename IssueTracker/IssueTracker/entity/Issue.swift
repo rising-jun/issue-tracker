@@ -15,11 +15,3 @@ struct Issue: Decodable {
     let milestone: Milestone?
     let body: String?
 }
-
-struct Label: Decodable {
-    let name: String
-}
-
-struct Milestone: Decodable {
-    let title: String
-}

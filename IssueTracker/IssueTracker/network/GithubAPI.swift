@@ -18,6 +18,7 @@ enum GithubAPI {
     
     case exchangeToken(String)
     case requestIssueList
+    case requestLabelList
 }
 
 extension GithubAPI: TargetType {
@@ -25,7 +26,7 @@ extension GithubAPI: TargetType {
         switch self {
         case .exchangeToken(_):
             return URL(string: "https://github.com")!
-        case .requestIssueList:
+        case .requestIssueList, .requestLabelList:
             return URL(string: "https://api.github.com")!
         }
     }
@@ -36,6 +37,8 @@ extension GithubAPI: TargetType {
             return "/login/oauth/access_token"
         case .requestIssueList:
             return "/repos/rising-jun/issue-tracker/issues"
+        case .requestLabelList:
+            return "/repos/rising-jun/issue-tracker/labels"
         }
     }
     
@@ -43,7 +46,7 @@ extension GithubAPI: TargetType {
         switch self {
         case .exchangeToken(_):
             return .post
-        case .requestIssueList:
+        case .requestIssueList, .requestLabelList:
             return .get
         }
     }
@@ -57,7 +60,7 @@ extension GithubAPI: TargetType {
                 "code": code
             ]
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-        case .requestIssueList:
+        case .requestIssueList, .requestLabelList:
             return .requestPlain
         }
     }
@@ -74,18 +77,20 @@ extension GithubAPI: TargetType {
             guard let jsonString = try? String(contentsOfFile: json) else { return Data() }
             guard let mockData = jsonString.data(using: .utf8) else { return Data() }
             return mockData
+        case .requestLabelList:
+            guard let json = Bundle.main.path(forResource: "MockLabelList", ofType: "json") else { return Data() }
+            guard let jsonString = try? String(contentsOfFile: json) else { return Data() }
+            guard let mockData = jsonString.data(using: .utf8) else { return Data() }
+            return mockData
         }
     }
     
     var headers: [String: String]? {
         switch self {
         case .exchangeToken(_):
-//            var header = ["Content-Type": "application/json"]
-//            header["Accept"] = "application/json"
-//            return header
             return ["Content-Type": "application/json",
                     "Accept": "application/json"]
-        case .requestIssueList:
+        case .requestIssueList, .requestLabelList:
             return ["Accept": "application/vnd.github.v3+json"]
         }
     }

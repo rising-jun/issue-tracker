@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0F34853D4D0AEC7B2297FC2F /* Pods_IssueTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1BDB0D7582662B98C2B008B /* Pods_IssueTracker.framework */; };
+		1E2DDCC028645AF70019A28D /* GithubLabelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2DDCBF28645AF70019A28D /* GithubLabelRepository.swift */; };
+		1E2DDCC428645B800019A28D /* Milestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2DDCC328645B800019A28D /* Milestone.swift */; };
+		1E2DDCC628645D170019A28D /* MockLabelList.json in Resources */ = {isa = PBXBuildFile; fileRef = 1E2DDCC528645D170019A28D /* MockLabelList.json */; };
+		1E2DDCCA28648A0E0019A28D /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2DDCC928648A0E0019A28D /* Label.swift */; };
 		1E96DF6928603B8B00E64DC2 /* MockIssueList.json in Resources */ = {isa = PBXBuildFile; fileRef = 1E96DF6828603B8B00E64DC2 /* MockIssueList.json */; };
 		1E96DF6B2860486100E64DC2 /* GithubIssueRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E96DF6A2860486100E64DC2 /* GithubIssueRepository.swift */; };
 		1E96DF6D2860493E00E64DC2 /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E96DF6C2860493E00E64DC2 /* Issue.swift */; };
@@ -71,6 +75,10 @@
 /* Begin PBXFileReference section */
 		056C0BEA14BB8DBADD04A529 /* Pods-IssueTrackerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssueTrackerTests.release.xcconfig"; path = "Target Support Files/Pods-IssueTrackerTests/Pods-IssueTrackerTests.release.xcconfig"; sourceTree = "<group>"; };
 		099331BC160144CC1371E258 /* Pods-IssueTracker-IssueTrackerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssueTracker-IssueTrackerUITests.release.xcconfig"; path = "Target Support Files/Pods-IssueTracker-IssueTrackerUITests/Pods-IssueTracker-IssueTrackerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		1E2DDCBF28645AF70019A28D /* GithubLabelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubLabelRepository.swift; sourceTree = "<group>"; };
+		1E2DDCC328645B800019A28D /* Milestone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Milestone.swift; sourceTree = "<group>"; };
+		1E2DDCC528645D170019A28D /* MockLabelList.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockLabelList.json; sourceTree = "<group>"; };
+		1E2DDCC928648A0E0019A28D /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		1E96DF2B285B13F200E64DC2 /* SecretAPIKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SecretAPIKey.xcconfig; sourceTree = "<group>"; };
 		1E96DF6828603B8B00E64DC2 /* MockIssueList.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockIssueList.json; sourceTree = "<group>"; };
 		1E96DF6A2860486100E64DC2 /* GithubIssueRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubIssueRepository.swift; sourceTree = "<group>"; };
@@ -166,6 +174,7 @@
 				1E96DF2B285B13F200E64DC2 /* SecretAPIKey.xcconfig */,
 				724F0EB0285860A60094351C /* MockAccessToken.json */,
 				1E96DF6828603B8B00E64DC2 /* MockIssueList.json */,
+				1E2DDCC528645D170019A28D /* MockLabelList.json */,
 				7235D91A2856D05200EDE584 /* .swiftlint.yml */,
 				722DBF1B2856CBC80021782E /* IssueTracker */,
 				722DBF322856CBCA0021782E /* IssueTrackerTests */,
@@ -295,6 +304,8 @@
 			children = (
 				724F5C79285AC5CC00B479A2 /* Token.swift */,
 				1E96DF6C2860493E00E64DC2 /* Issue.swift */,
+				1E2DDCC928648A0E0019A28D /* Label.swift */,
+				1E2DDCC328645B800019A28D /* Milestone.swift */,
 			);
 			path = entity;
 			sourceTree = "<group>";
@@ -321,6 +332,7 @@
 			children = (
 				72F41A75285735B600711F54 /* GithubTokenRepository.swift */,
 				1E96DF6A2860486100E64DC2 /* GithubIssueRepository.swift */,
+				1E2DDCBF28645AF70019A28D /* GithubLabelRepository.swift */,
 				72C10526285772D9007EC4E8 /* GithubAPI.swift */,
 				724F5C7B285ACEDF00B479A2 /* RequestGithubLogin.swift */,
 			);
@@ -491,6 +503,7 @@
 			files = (
 				724F0EB1285860A60094351C /* MockAccessToken.json in Resources */,
 				1E96DF6928603B8B00E64DC2 /* MockIssueList.json in Resources */,
+				1E2DDCC628645D170019A28D /* MockLabelList.json in Resources */,
 				7235D91B2856D05200EDE584 /* .swiftlint.yml in Resources */,
 				722DBF292856CBCA0021782E /* LaunchScreen.storyboard in Resources */,
 				722DBF262856CBCA0021782E /* Assets.xcassets in Resources */,
@@ -645,6 +658,7 @@
 				72432EBC285C193600DEDE85 /* AppCoordinator.swift in Sources */,
 				72D6EBD62864357F000514BB /* LabelView.swift in Sources */,
 				1E96DF6D2860493E00E64DC2 /* Issue.swift in Sources */,
+				1E2DDCC028645AF70019A28D /* GithubLabelRepository.swift in Sources */,
 				722DBF212856CBC80021782E /* LoginViewController.swift in Sources */,
 				72C10527285772D9007EC4E8 /* GithubAPI.swift in Sources */,
 				722DBF1D2856CBC80021782E /* AppDelegate.swift in Sources */,
@@ -652,6 +666,7 @@
 				72F41A742857329A00711F54 /* SceneReactor.swift in Sources */,
 				724F0EAB28584BEE0094351C /* SceneType.swift in Sources */,
 				729D0A682859710A003873F8 /* LoginReactor.swift in Sources */,
+				1E2DDCCA28648A0E0019A28D /* Label.swift in Sources */,
 				72D6EBD42864353C000514BB /* LabelViewController.swift in Sources */,
 				72592E3528618D190019C429 /* IssueReactor.swift in Sources */,
 				72D6EBD82864369A000514BB /* LabelReactor.swift in Sources */,
@@ -662,6 +677,7 @@
 				1E96DF6B2860486100E64DC2 /* GithubIssueRepository.swift in Sources */,
 				724F0EA92858456B0094351C /* UserDefaultManager.swift in Sources */,
 				724F0EBA285873700094351C /* LoginView.swift in Sources */,
+				1E2DDCC428645B800019A28D /* Milestone.swift in Sources */,
 				722DBF1F2856CBC80021782E /* SceneDelegate.swift in Sources */,
 				72D6EBDA2864514D000514BB /* LabelCoordinator.swift in Sources */,
 			);

@@ -1,0 +1,29 @@
+[
+    {
+        "id": 4226366153,
+        "node_id": "LA_kwDOHfepO8776TrJ",
+        "url": "https://api.github.com/repos/rising-jun/issue-tracker/labels/bugfix",
+        "name": "bugfix",
+        "color": "C0F86E",
+        "default": false,
+        "description": "bugfix description"
+    },
+    {
+        "id": 4226365360,
+        "node_id": "LA_kwDOHfepO8776Tew",
+        "url": "https://api.github.com/repos/rising-jun/issue-tracker/labels/feature",
+        "name": "feature",
+        "color": "D369D7",
+        "default": false,
+        "description": ""
+    },
+    {
+        "id": 4226365575,
+        "node_id": "LA_kwDOHfepO8776TiH",
+        "url": "https://api.github.com/repos/rising-jun/issue-tracker/labels/refactor",
+        "name": "refactor",
+        "color": "EEE3F3",
+        "default": false,
+        "description": ""
+    }
+]
